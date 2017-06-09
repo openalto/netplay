@@ -4,15 +4,18 @@
 </template>
 
 <script>
-import D3Force from './topo/topo'
+import D3Force from './topo/charts'
+import Global from './topo/global'
+import Event from './topo/events'
 const d3 = require('d3')
 
 export default {
   name: 'topology',
   mounted: () => {
-    var _this = this
-    d3.json('static/data/test_topo.json', (data) => {
-      _this.chart = new D3Force(data.nodes, data.links, '#graph')
+    window.$global = new Global()
+    d3.json('static/data/test_odl_topo.json', (data) => {
+      window.chart = new D3Force(data.nodes, data.links, '#graph')
+      window.$events = new Event()
     })
   }
 }

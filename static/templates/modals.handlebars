@@ -1,0 +1,35 @@
+<!-- Modal -->
+<div class="modal fade" id="L2RouteCalculationModal" tabindex="-1" role="dialog" aria-labelledby="generic-modal-title">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="generic-modal-title">Display routes between two nodes</h4>
+      </div>
+      <div class="modal-body" id="modal-msg">
+        <form id ="routeCalculationForm" action="#" method="POST" class="form-horizontal">
+          <div class="form-group">
+            <label for="source" class="col-sm-2 control-label">Source:</label>
+            <div class="col-sm-10">
+            <select id="l2source" name="source" class="form-control">
+              <option>Choose a source host</option>
+            </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="destination" class="col-sm-2 control-label">Destination:</label>
+            <div class="col-sm-10">
+            <select id="l2destination" name="destination" class="form-control">
+              <option>Choose a destination host</option>
+            </select>
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <input type="button" id="L2RouteCalculationFormSubmit" class="btn btn-danger" value="Display routes">
+        </form> 
+      </div>
+    </div>
+  </div>
+</div>

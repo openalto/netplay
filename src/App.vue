@@ -90,7 +90,7 @@ export default {
         { title: 'Log Out' }
       ],
       fixed: false,
-      title: 'NetPlay'
+      title: 'NetPlay -- DevOps is like a game'
     }
   }
 }
