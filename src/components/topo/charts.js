@@ -54,9 +54,9 @@ export default function (nodes, links, div) {
 
   this.fix_layout = true
 
-  // var pathgen = d3.svg.line().interpolate('basis')
-  // That is deprecated by d3 v4
-  var pathgen = d3.line().curve(d3.curveBasis)
+  var pathgen = d3.svg.line().interpolate('basis')
+  // FIXME: interpolate() is deprecated by d3 v4
+  // var pathgen = d3.line().curve(d3.curveBasis)
 
   this.fadein_all = function () {
     d3.selectAll('.node').style('opacity', '0.3')
@@ -621,8 +621,6 @@ export default function (nodes, links, div) {
   }
 
   this.force = d3.layout.force()
-  //  .nodes(d3.values(this.nodes))
-  //  .links(this.links)
     .nodes(filteredNodes)
     .links(filteredLinks)
     .size([this.width, this.height])
