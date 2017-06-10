@@ -51,13 +51,7 @@
       </v-toolbar-items>
     </v-toolbar>
     <main>
-      <v-container fluid>
-        <v-slide-y-transition mode="out-in">
-          <v-layout column align-center>
-            <router-view></router-view>
-          </v-layout>
-        </v-slide-y-transition>
-      </v-container>
+      <router-view></router-view>
     </main>
     <v-footer :fixed="fixed">
       <span>SNLab.Org and Caltech &copy; 2017</span>

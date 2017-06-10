@@ -5,24 +5,17 @@ const d3 = require('d3')
 var testLayout = require('./test_layout')
 
 export default function (nodes, links, div) {
+  var _this = this
   this.nodes = nodes
   this.links = links
   this.div = div
-  this.width = $(div).parent().width()
-  this.height = $(window).height() - 75
+  this.width = _width()
+  this.height = _height()
   this.zoom = true
 
-  var _this = this
   var global = window.$global
 
   // Nodes vars
-  // var charge = {'switch': 200,
-  //               'ovs': 200,
-  //               'host': 20,
-  //               'port': -20}
-
-  var i, j
-
   var size = {
     'switch': 55,
     'ovs': 55,
@@ -46,17 +39,15 @@ export default function (nodes, links, div) {
   var THETA = Math.PI / 9
 
   // var tick_times = 100
-
   this.positions_cache = {}
-
   this.switch_labels_type = 'customize'
   this.host_labels_type = 'customize'
-
   this.fix_layout = true
-
   var pathgen = d3.svg.line().interpolate('basis')
   // FIXME: interpolate() is deprecated by d3 v4
   // var pathgen = d3.line().curve(d3.curveBasis)
+
+  var i, j
 
   this.fadein_all = function () {
     d3.selectAll('.node').style('opacity', '0.3')
@@ -178,7 +169,8 @@ export default function (nodes, links, div) {
 
   this.show_link_details = function (link) {
     global.lock_highlight = true
-    $('nav').show()
+    // FIXME: replace nav by sidebar
+    // $('nav').show()
     global.clear_pannel_info()
 
     global.getTemplateAjax('link-details.handlebars', function (template) {
@@ -898,9 +890,18 @@ export default function (nodes, links, div) {
 
   d3.select(window).on('resize', resize)
 
+  function _width () {
+    return $(_this.div).parent().width()
+  }
+
+  function _height () {
+    return $(window).innerHeight() - $('nav.toolbar').height() -
+      $('footer').height() - 6
+  }
+
   function resize () {
-    _this.width = $(_this.div).parent().width()
-    _this.height = $(window).height() - 75
+    _this.width = _width()
+    _this.height = _height()
     $(_this.div).attr('width', _this.width).attr('height', _this.height)
     $(_this.div).children().attr('width', _this.width).attr('height', _this.height)
     _this.svg.attr('width', _this.width).attr('height', _this.height)
