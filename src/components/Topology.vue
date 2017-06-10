@@ -75,19 +75,19 @@ export default {
   fill: #FFCC00
 
 .mellanox-circle
-  fill: url(/index.html#mellanox)
+  fill: url(#mellanox)
 
 .arista-circle
-  fill: url(/index.html#arista)
+  fill: url(#arista)
 
 .dell-circle
-  fill: url(/index.html#dell)
+  fill: url(#dell)
 
 .pic-circle
-  fill: url(/index.html#pica8)
+  fill: url(#pica8)
 
 .juniper-circle
-  fill: url(/index.html#juniper)
+  fill: url(#juniper)
 
 .switch text,
 .ovs text
