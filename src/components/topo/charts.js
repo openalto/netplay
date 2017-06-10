@@ -66,7 +66,8 @@ export default function (nodes, links, div) {
   this.fadeout_all = function () {
     d3.selectAll('.node').style('opacity', '1')
     d3.selectAll('.link-link, .host-link').style('opacity', '0.5').style('cursor', null)
-    $('nav').hide()
+    // FIXME: replace nav by sidebar
+    // $('nav').hide()
     global.toggle_task_timer = false
     clearTimeout(global.task_management_timer)
     global.lock_highlight = false
@@ -115,7 +116,8 @@ export default function (nodes, links, div) {
   this.show_node_details = function (node) {
     /* TODO: Maybe this function should not be here. */
     global.lock_highlight = true
-    $('nav').show()
+    // FIXME: replace nav by sidebar
+    // $('nav').show()
     global.clear_pannel_info()
 
     if (node.type === 'switch' || node.type === 'ovs') {
@@ -691,7 +693,7 @@ export default function (nodes, links, div) {
     .attr('width', 110)
     .attr('height', 110)
     .append('image')
-    .attr('xlink:href', '/static/assets/images/mellanox.jpg')
+    .attr('xlink:href', '/static/images/mellanox.jpg')
     .attr('width', 110)
     .attr('height', 110)
 
@@ -703,7 +705,7 @@ export default function (nodes, links, div) {
     .attr('width', 110)
     .attr('height', 110)
     .append('image')
-    .attr('xlink:href', '/static/assets/images/arista.png')
+    .attr('xlink:href', '/static/images/arista.png')
     .attr('width', 110)
     .attr('height', 110)
 
@@ -715,7 +717,7 @@ export default function (nodes, links, div) {
     .attr('width', 110)
     .attr('height', 110)
     .append('image')
-    .attr('xlink:href', '/static/assets/images/dell.png')
+    .attr('xlink:href', '/static/images/dell.png')
     .attr('width', 110)
     .attr('height', 110)
     .attr('fill', 'black')
@@ -728,7 +730,7 @@ export default function (nodes, links, div) {
     .attr('width', 110)
     .attr('height', 110)
     .append('image')
-    .attr('xlink:href', '/static/assets/images/pica8.png')
+    .attr('xlink:href', '/static/images/pica8.png')
     .attr('width', 110)
     .attr('height', 110)
     .attr('fill', 'black')
@@ -741,7 +743,7 @@ export default function (nodes, links, div) {
     .attr('width', 110)
     .attr('height', 110)
     .append('image')
-    .attr('xlink:href', '/static/assets/images/juniper.png')
+    .attr('xlink:href', '/static/images/juniper.png')
     .attr('width', 110)
     .attr('height', 110)
     .attr('fill', 'black')
