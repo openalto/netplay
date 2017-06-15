@@ -33,9 +33,9 @@ export default function () {
     }, timeout)
   }
 
-  this.clear_pannel_info = () => {
+  this.clear_panel_info = () => {
     // FIXME: it is inefficient
-    $('#info-pannel').html('')
+    $('#info-panel').html('')
   }
 
   this.getTemplateAjax = (path, callback) => {
@@ -60,7 +60,7 @@ export default function () {
   this.display_paths = (source, destination, paths) => {
     _this.lock_highlight = true
     $('nav').show()
-    _this.clear_pannel_info()
+    _this.clear_panel_info()
 
     _this.getTemplateAjax('paths-details.handlebars', (template) => {
       var context = {source: source,
@@ -85,7 +85,7 @@ export default function () {
   this.alto_path_manager = (paths) => {
     _this.lock_highlight = true
     $('nav').show()
-    _this.clear_pannel_info()
+    _this.clear_panel_info()
 
     _this.getTemplateAjax('alto-route-management.handlebars', (template) => {
       // Test part
@@ -130,7 +130,7 @@ export default function () {
   this.alto_task_manager = (tasks) => {
     _this.lock_highlight = true
     $('nav').show()
-    _this.clear_pannel_info()
+    _this.clear_panel_info()
     // TODO: dispay tasks stat
     _this.getTemplateAjax('alto-task-management.handlebars', (template) => {
       // Test part
@@ -144,7 +144,7 @@ export default function () {
   }
 
   this.plot_flow = (cleanFlowId, tableId, nodeId) => {
-    _this.clear_pannel_info()
+    _this.clear_panel_info()
 
     $.ajax({
       url: '/api/flow/' + nodeId + '/' + tableId + '/' + cleanFlowId,

@@ -110,12 +110,12 @@ export default function (nodes, links, div, vm) {
     /* TODO: Maybe this function should not be here. */
     global.lock_highlight = true
     vm.$emit('info-panel', true)
-    global.clear_pannel_info()
+    global.clear_panel_info()
 
     if (node.type === 'switch' || node.type === 'ovs') {
       global.getTemplateAjax('switch-details.handlebars', function (template) {
         var context = node
-        $('#info-pannel').html(template(context))
+        $('#info-panel').html(template(context))
         _this.customize_name()
         $('#customize-name').keypress(function (e) {
           if (e.which === 13) {
@@ -148,7 +148,7 @@ export default function (nodes, links, div, vm) {
           'attachment_port': attachmentPort,
           'attachment_switch': attachmentSwitch
         }
-        $('#info-pannel').html(template(context))
+        $('#info-panel').html(template(context))
         _this.customize_name()
         $('#customize-name').keypress(function (e) {
           if (e.which === 13) {
@@ -171,7 +171,7 @@ export default function (nodes, links, div, vm) {
   this.show_link_details = function (link) {
     global.lock_highlight = true
     vm.$emit('info-panel', true)
-    global.clear_pannel_info()
+    global.clear_panel_info()
 
     global.getTemplateAjax('link-details.handlebars', function (template) {
       var saddr = link.source.type === 'host' ? link.source['host-tracker-service:addresses'][0].ip : link.source.ip_address
@@ -236,7 +236,7 @@ export default function (nodes, links, div, vm) {
       if (link.target_port) {
         context.tport = link.target_port.id
       }
-      $('#node-details').html(template(context))
+      $('#info-panel').html(template(context))
     })
   }
 
