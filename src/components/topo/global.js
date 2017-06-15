@@ -35,7 +35,7 @@ export default function () {
 
   this.clear_pannel_info = () => {
     // FIXME: it is inefficient
-    $('#node-details').html('')
+    $('#info-pannel').html('')
   }
 
   this.getTemplateAjax = (path, callback) => {

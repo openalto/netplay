@@ -23,7 +23,7 @@
       </v-list>
     </v-navigation-drawer>
     <v-toolbar>
-      <v-toolbar-side-icon light @click.native.top="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-side-icon light @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-btn icon light @click.native.stop="miniVariant = !miniVariant">
         <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
       </v-btn>
@@ -50,9 +50,7 @@
         </v-menu>
       </v-toolbar-items>
     </v-toolbar>
-    <main>
-      <router-view></router-view>
-    </main>
+    <router-view></router-view>
     <v-footer :fixed="fixed">
       <span>SNLab.Org and Caltech &copy; 2017</span>
     </v-footer>
@@ -62,6 +60,11 @@
 <script>
 export default {
   name: 'app',
+  created () {
+    if (!window.$global) {
+      window.$global = {}
+    }
+  },
   data () {
     return {
       miniVariant: false,

@@ -4,7 +4,7 @@ const d3 = require('d3')
 
 var testLayout = require('./test_layout')
 
-export default function (nodes, links, div) {
+export default function (nodes, links, div, vm) {
   var _this = this
   this.nodes = nodes
   this.links = links
@@ -57,11 +57,13 @@ export default function (nodes, links, div) {
   this.fadeout_all = function () {
     d3.selectAll('.node').style('opacity', '1')
     d3.selectAll('.link-link, .host-link').style('opacity', '0.5').style('cursor', null)
-    // FIXME: replace nav by sidebar
-    // $('nav').hide()
+    vm.$emit('info-panel', false)
     global.toggle_task_timer = false
     clearTimeout(global.task_management_timer)
     global.lock_highlight = false
+    if (d3.event) {
+      d3.event.stopPropagation()
+    }
   }
 
   this.highlight_link = function (link) {
@@ -107,14 +109,13 @@ export default function (nodes, links, div) {
   this.show_node_details = function (node) {
     /* TODO: Maybe this function should not be here. */
     global.lock_highlight = true
-    // FIXME: replace nav by sidebar
-    // $('nav').show()
+    vm.$emit('info-panel', true)
     global.clear_pannel_info()
 
     if (node.type === 'switch' || node.type === 'ovs') {
       global.getTemplateAjax('switch-details.handlebars', function (template) {
         var context = node
-        $('#node-details').html(template(context))
+        $('#info-pannel').html(template(context))
         _this.customize_name()
         $('#customize-name').keypress(function (e) {
           if (e.which === 13) {
@@ -147,7 +148,7 @@ export default function (nodes, links, div) {
           'attachment_port': attachmentPort,
           'attachment_switch': attachmentSwitch
         }
-        $('#node-details').html(template(context))
+        $('#info-pannel').html(template(context))
         _this.customize_name()
         $('#customize-name').keypress(function (e) {
           if (e.which === 13) {
@@ -169,8 +170,7 @@ export default function (nodes, links, div) {
 
   this.show_link_details = function (link) {
     global.lock_highlight = true
-    // FIXME: replace nav by sidebar
-    // $('nav').show()
+    vm.$emit('info-panel', true)
     global.clear_pannel_info()
 
     global.getTemplateAjax('link-details.handlebars', function (template) {
@@ -669,7 +669,7 @@ export default function (nodes, links, div) {
   this.svg = d3.select(this.div).append('svg')
     .attr('width', this.width)
     .attr('height', this.height)
-    .on('dblclick', this.fadeout_all)
+    .on('click', this.fadeout_all)
     .attr('pointer-events', 'all')
     .call(d3.behavior.zoom().on('zoom', rescale))
     .on('dblclick.zoom', null)
@@ -769,7 +769,6 @@ export default function (nodes, links, div) {
     })
     .on('mouseout', function () {
       if (!global.lock_highlight) {
-        // var data = d3.select(this)[0][0].__data__
         _this.fadeout_all()
       }
     })
@@ -803,7 +802,6 @@ export default function (nodes, links, div) {
       return 'node' + ' ' + d.type + ' ' + d.type + '-' + d.id
     })
     .on('click', onclick)
-  //    .on('mouseout', mouseout)
     .call(this.custom_drag)
 
   this.port = this.svg.selectAll('.port')
@@ -865,7 +863,7 @@ export default function (nodes, links, div) {
       })
   }
 
-  function onclick () {
+  function onclick (event) {
     var element = d3.select(this)
     var data = element[0][0].__data__
     if (data.capacity) {
@@ -878,6 +876,7 @@ export default function (nodes, links, div) {
     } else if (data.type === 'host') {
       _this.highlight_host(data)
     }
+    d3.event.stopPropagation()
   }
 
   function rescale () {

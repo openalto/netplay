@@ -1,6 +1,15 @@
 <template>
-  <div id="graph">
-  </div>
+  <main>
+    <div id="graph"></div>
+    <v-navigation-drawer
+      id="info-panel"
+      temporary
+      :clipped="infoClipped"
+      :right="right"
+      v-model="infoDrawer"
+    >
+    </v-navigation-drawer>
+  </main>
 </template>
 
 <script>
@@ -11,12 +20,23 @@ const d3 = require('d3')
 
 export default {
   name: 'topology',
-  mounted: () => {
-    window.$global = new Global()
-    d3.json('static/data/test_odl_topo.json', (data) => {
-      window.chart = new D3Force(data.nodes, data.links, '#graph')
+  mounted () {
+    var _this = this
+    Object.assign(window.$global, new Global())
+    d3.json('static/data/test_odl_topo.json', function (data) {
+      window.chart = new D3Force(data.nodes, data.links, '#graph', _this)
       window.$events = new Event()
     })
+    _this.$on('info-panel', function (draw) {
+      _this.infoDrawer = draw
+    })
+  },
+  data () {
+    return {
+      right: true,
+      infoClipped: true,
+      infoDrawer: false
+    }
   }
 }
 </script>
