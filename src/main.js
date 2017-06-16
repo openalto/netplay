@@ -8,8 +8,10 @@ import router from './router'
 Vue.use(Vuetify)
 Vue.config.productionTip = false
 
+window.$state = new Vue()
+
 /* eslint-disable no-new */
-new Vue({
+window.$vm = new Vue({
   el: '#app',
   router,
   template: '<App/>',

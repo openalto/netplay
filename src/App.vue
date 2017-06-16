@@ -23,7 +23,7 @@
       </v-list>
     </v-navigation-drawer>
     <v-toolbar>
-      <v-toolbar-side-icon light @click.native.top="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-side-icon light @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-btn icon light @click.native.stop="miniVariant = !miniVariant">
         <v-icon v-html="miniVariant ? 'chevron_right' : 'chevron_left'"></v-icon>
       </v-btn>
@@ -50,15 +50,7 @@
         </v-menu>
       </v-toolbar-items>
     </v-toolbar>
-    <main>
-      <v-container fluid>
-        <v-slide-y-transition mode="out-in">
-          <v-layout column align-center>
-            <router-view></router-view>
-          </v-layout>
-        </v-slide-y-transition>
-      </v-container>
-    </main>
+    <router-view></router-view>
     <v-footer :fixed="fixed">
       <span>SNLab.Org and Caltech &copy; 2017</span>
     </v-footer>
@@ -68,6 +60,11 @@
 <script>
 export default {
   name: 'app',
+  created () {
+    if (!window.$global) {
+      window.$global = {}
+    }
+  },
   data () {
     return {
       miniVariant: false,
@@ -90,7 +87,7 @@ export default {
         { title: 'Log Out' }
       ],
       fixed: false,
-      title: 'NetPlay'
+      title: 'NetPlay -- DevOps is like a game'
     }
   }
 }
@@ -98,6 +95,11 @@ export default {
 
 <style lang="stylus">
 @import './stylus/main'
+
+main
+  background-color: rgba(0,0,0,1)
+  color: white
+
 #app
   font-family: 'Avenir', Helvetica, Arial, sans-serif
   -webkit-font-smoothing: antialiased

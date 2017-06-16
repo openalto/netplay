@@ -1,5 +1,7 @@
 # netplay
 
+[![Travis](https://img.shields.io/travis/fno2010/netplay.svg)](https://travis-ci.org/fno2010/netplay)
+
 > Operate your network just like playing a game
 
 ## Build Setup

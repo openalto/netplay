@@ -1,0 +1,58 @@
+<div class="col-md-12">
+  <br/>
+  <table class="table table-condensed" id="flowsTable">
+    <thead>
+      <tr>
+        <th width="1%"></th>
+        <th width="20%">ID</th>
+        <th>Switch ID</th>
+        <th>Name</th>
+        <th>Priority</th>
+        <th width="1%">Hard</th>
+        <th width="1%">Idle</th>
+        <th>Ether Type</th>
+        <th>Ether Source</th>
+        <th>Ether Destination</th>
+        <th>IPv4 Source</th>
+        <th>IPv4 Destination</th>
+        <th width="15%">Actions</th>
+        <th width="5%"></th>
+      </tr>
+    </thead>
+   <tbody>
+  {{#each switch}}
+      {{#each tables}}
+        {{#each flows}}
+      <tr style="color:white;" class="accordion-toggle">
+        <td>
+{{#active}}
+<i class="fa fa-fw fa-check" style="color: green;" title="This is a active flow. That means that is running on the switch"></i>
+{{/active}}
+{{^active}}
+<i class="fa fa-fw fa-check" style="color: #222;"></i>
+{{/active}}
+        </td>
+        <td>{{id}}</td>
+        <td>{{node_id}}</td>
+        <td>{{name}}</td>
+        <td>{{priority}}</td>
+        <td>{{hard_timeout}}</td>
+        <td>{{idle_timeout}}</td>
+        <td class="eth">{{ethernet_match.type}}</td>
+        <td class="eth">{{ethernet_match.source}}</td>
+        <td class="eth">{{ethernet_match.destination}}</td>
+        <td class="ip">{{ipv4_source}}</td>
+        <td class="ip">{{ipv4_destination}}</td>
+        <td>{{#each actions}} {{type}}:{{value}} {{/each}}</td>
+        <th>
+          <a target="_blank" href='/plot_flow.html?node={{node_id}}&table={{table_id}}&clean_id={{clean_id}}'><i class="fa fa-area-chart"></i></a>
+          <a href="#" data-toggle="modal" data-target="#FlowRemoveModal" data-flow="{{id}}" data-table="{{table_id}}" data-name="{{name}}" data-node="{{node_id}}"><i class="fa fa-trash"></i></a>
+        </th>
+
+      </tr>
+        {{/each}}
+      {{/each}}
+  {{/each}}
+    </tbody>
+  </table>
+</div>

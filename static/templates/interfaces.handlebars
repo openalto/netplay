@@ -1,0 +1,29 @@
+<div class="col-md-12">
+  </BR>
+  <table class="table table-condensed" id="switchesTable">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Port Number</th>
+        <th>Configuration</th>
+        <th>Hardware Address</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+   <tbody>
+  {{#each switch}}
+      {{#each connectors}}
+      <tr style="color:white;" class="accordion-toggle">
+        <td>{{id}}</td>
+        <td>{{name}}</td>
+        <td>{{port_number}}</td>
+        <td>{{configuration}}</td>
+        <td>{{hardware_address}}</td>
+        <td>{{status}}</td>
+      </tr>
+      {{/each}}
+  {{/each}}
+    </tbody>
+  </table>
+</div>
