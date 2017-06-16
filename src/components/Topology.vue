@@ -2,12 +2,16 @@
   <main>
     <div id="graph"></div>
     <v-navigation-drawer
-      id="info-panel"
       temporary
+      floating
+      right
+      height="50%"
+      hide-overlay
+      class="no-bg panel"
       :clipped="infoClipped"
-      :right="right"
       v-model="infoDrawer"
     >
+      <component :is="panelType"></component>
     </v-navigation-drawer>
   </main>
 </template>
@@ -16,6 +20,7 @@
 import D3Force from './topo/charts'
 import Global from './topo/global'
 import Event from './topo/events'
+import SwitchInfo from '@/components/panel/Switch'
 const d3 = require('d3')
 
 export default {
@@ -28,14 +33,38 @@ export default {
       window.$events = new Event()
     })
     _this.$on('info-panel', function (draw) {
-      _this.infoDrawer = draw
+      _this.infoDrawer = draw.show
+      if (draw.show) {
+        d3.select('.panel').style('width', '100%')
+      } else {
+        d3.select('.panel').style('width', '0')
+      }
+      if (draw.type === 'switchInfo') {
+        _this.showSwitchInfo()
+      } else {
+        _this.showDefault()
+      }
     })
+  },
+  methods: {
+    showSwitchInfo: function () {
+      this.panelType = 'switchInfo'
+    },
+    showDefault: function () {
+      this.panelType = 'default'
+    }
+  },
+  components: {
+    default: {
+      template: '<div style="display: none">Default Panel Type. (You should never see it.)</div>'
+    },
+    SwitchInfo
   },
   data () {
     return {
-      right: true,
       infoClipped: true,
-      infoDrawer: false
+      infoDrawer: false,
+      panelType: 'default'
     }
   }
 }
@@ -141,4 +170,12 @@ export default {
 
 .oposite-flow-details
   border-left: 10px solid lightgreen
+
+.no-bg
+  background-color: rgba(0,0,0,0)
+
+.panel
+  width: 100%
+  top: auto
+  bottom: 0
 </style>

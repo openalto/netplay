@@ -57,7 +57,7 @@ export default function (nodes, links, div, vm) {
   this.fadeout_all = function () {
     d3.selectAll('.node').style('opacity', '1')
     d3.selectAll('.link-link, .host-link').style('opacity', '0.5').style('cursor', null)
-    vm.$emit('info-panel', false)
+    vm.$emit('info-panel', {show: false})
     global.toggle_task_timer = false
     clearTimeout(global.task_management_timer)
     global.lock_highlight = false
@@ -109,135 +109,142 @@ export default function (nodes, links, div, vm) {
   this.show_node_details = function (node) {
     /* TODO: Maybe this function should not be here. */
     global.lock_highlight = true
-    vm.$emit('info-panel', true)
-    global.clear_panel_info()
-
+    var config = {show: true}
     if (node.type === 'switch' || node.type === 'ovs') {
-      global.getTemplateAjax('switch-details.handlebars', function (template) {
-        var context = node
-        $('#info-panel').html(template(context))
-        _this.customize_name()
-        $('#customize-name').keypress(function (e) {
-          if (e.which === 13) {
-            _this.set_customize_name()
-            if (_this.switch_labels_type === 'customize') {
-              _this.show_switch_labels('customize')
-            }
-          }
-        })
-        $('#customize-name-apply').click(function (e) {
-          _this.set_customize_name()
-          if (_this.switch_labels_type === 'customize') {
-            _this.show_switch_labels('customize')
-          }
-        })
-      })
+      config.type = 'switchInfo'
     } else if (node.type === 'host') {
-      global.getTemplateAjax('host-details.handlebars', function (template) {
-        var address = node['host-tracker-service:addresses'][0]
-        var attachmentPoint = node['host-tracker-service:attachment-points'][0]
-        var attachmentSplit = attachmentPoint['tp-id'].split(':')
-        var attachmentPort = attachmentSplit.pop()
-        var attachmentSwitch = attachmentSplit.join(':')
-        var context = {
-          'id': address.id,
-          'name': node.id,
-          'ip': address.ip,
-          'mac': address.mac,
-          'active': attachmentPoint.active,
-          'attachment_port': attachmentPort,
-          'attachment_switch': attachmentSwitch
-        }
-        $('#info-panel').html(template(context))
-        _this.customize_name()
-        $('#customize-name').keypress(function (e) {
-          if (e.which === 13) {
-            _this.set_customize_name()
-            if (_this.host_labels_type === 'customize') {
-              _this.show_host_labels('customize')
-            }
-          }
-        })
-        $('#customize-name-apply').click(function (e) {
-          _this.set_customize_name()
-          if (_this.host_labels_type === 'customize') {
-            _this.show_host_labels('customize')
-          }
-        })
-      })
+      config.type = 'hostInfo'
     }
+    vm.$emit('info-panel', config)
+    // global.clear_panel_info()
+
+    // if (node.type === 'switch' || node.type === 'ovs') {
+    //   global.getTemplateAjax('switch-details.handlebars', function (template) {
+    //     var context = node
+    //     $('#info-panel').html(template(context))
+    //     _this.customize_name()
+    //     $('#customize-name').keypress(function (e) {
+    //       if (e.which === 13) {
+    //         _this.set_customize_name()
+    //         if (_this.switch_labels_type === 'customize') {
+    //           _this.show_switch_labels('customize')
+    //         }
+    //       }
+    //     })
+    //     $('#customize-name-apply').click(function (e) {
+    //       _this.set_customize_name()
+    //       if (_this.switch_labels_type === 'customize') {
+    //         _this.show_switch_labels('customize')
+    //       }
+    //     })
+    //   })
+    // } else if (node.type === 'host') {
+    //   global.getTemplateAjax('host-details.handlebars', function (template) {
+    //     var address = node['host-tracker-service:addresses'][0]
+    //     var attachmentPoint = node['host-tracker-service:attachment-points'][0]
+    //     var attachmentSplit = attachmentPoint['tp-id'].split(':')
+    //     var attachmentPort = attachmentSplit.pop()
+    //     var attachmentSwitch = attachmentSplit.join(':')
+    //     var context = {
+    //       'id': address.id,
+    //       'name': node.id,
+    //       'ip': address.ip,
+    //       'mac': address.mac,
+    //       'active': attachmentPoint.active,
+    //       'attachment_port': attachmentPort,
+    //       'attachment_switch': attachmentSwitch
+    //     }
+    //     $('#info-panel').html(template(context))
+    //     _this.customize_name()
+    //     $('#customize-name').keypress(function (e) {
+    //       if (e.which === 13) {
+    //         _this.set_customize_name()
+    //         if (_this.host_labels_type === 'customize') {
+    //           _this.show_host_labels('customize')
+    //         }
+    //       }
+    //     })
+    //     $('#customize-name-apply').click(function (e) {
+    //       _this.set_customize_name()
+    //       if (_this.host_labels_type === 'customize') {
+    //         _this.show_host_labels('customize')
+    //       }
+    //     })
+    //   })
+    // }
   }
 
   this.show_link_details = function (link) {
     global.lock_highlight = true
-    vm.$emit('info-panel', true)
-    global.clear_panel_info()
+    var config = {show: true, type: 'linkInfo'}
+    vm.$emit('info-panel', config)
+    // global.clear_panel_info()
 
-    global.getTemplateAjax('link-details.handlebars', function (template) {
-      var saddr = link.source.type === 'host' ? link.source['host-tracker-service:addresses'][0].ip : link.source.ip_address
-      var taddr = link.target.type === 'host' ? link.target['host-tracker-service:addresses'][0].ip : link.target.ip_address
-      var flows = []
-      var connectors = []
+    // global.getTemplateAjax('link-details.handlebars', function (template) {
+    //   var saddr = link.source.type === 'host' ? link.source['host-tracker-service:addresses'][0].ip : link.source.ip_address
+    //   var taddr = link.target.type === 'host' ? link.target['host-tracker-service:addresses'][0].ip : link.target.ip_address
+    //   var flows = []
+    //   var connectors = []
 
-      if (link.source.tables && link.source_port) {
-        Object.keys(link.source.tables).forEach(function (id) {
-          var sflows = link.source.tables[id].flows
-          Object.keys(sflows).forEach(function (id) {
-            if (sflows[id]
-              .actions
-              .filter(function (d) {
-                return d.value === link.source_port.port_number
-              }).length) {
-              flows.push(sflows[id])
-            }
-          })
-        })
-      }
-      if (link.target.tables && link.target_port) {
-        Object.keys(link.target.tables).forEach(function (id) {
-          var tflows = link.target.tables[id].flows
-          Object.keys(tflows).forEach(function (id) {
-            if (tflows[id]
-              .actions
-              .filter(function (d) {
-                return d.value === link.target_port.port_number
-              }).length) {
-              flows.push(tflows[id])
-            }
-          })
-        })
-      }
+    //   if (link.source.tables && link.source_port) {
+    //     Object.keys(link.source.tables).forEach(function (id) {
+    //       var sflows = link.source.tables[id].flows
+    //       Object.keys(sflows).forEach(function (id) {
+    //         if (sflows[id]
+    //           .actions
+    //           .filter(function (d) {
+    //             return d.value === link.source_port.port_number
+    //           }).length) {
+    //           flows.push(sflows[id])
+    //         }
+    //       })
+    //     })
+    //   }
+    //   if (link.target.tables && link.target_port) {
+    //     Object.keys(link.target.tables).forEach(function (id) {
+    //       var tflows = link.target.tables[id].flows
+    //       Object.keys(tflows).forEach(function (id) {
+    //         if (tflows[id]
+    //           .actions
+    //           .filter(function (d) {
+    //             return d.value === link.target_port.port_number
+    //           }).length) {
+    //           flows.push(tflows[id])
+    //         }
+    //       })
+    //     })
+    //   }
 
-      if (link.source.connectors) {
-        Object.keys(link.source.connectors).forEach(function (id) {
-          connectors.push(link.source.connectors[id])
-        })
-      }
-      if (link.target.connectors) {
-        Object.keys(link.target.connectors).forEach(function (id) {
-          connectors.push(link.target.connectors[id])
-        })
-      }
+    //   if (link.source.connectors) {
+    //     Object.keys(link.source.connectors).forEach(function (id) {
+    //       connectors.push(link.source.connectors[id])
+    //     })
+    //   }
+    //   if (link.target.connectors) {
+    //     Object.keys(link.target.connectors).forEach(function (id) {
+    //       connectors.push(link.target.connectors[id])
+    //     })
+    //   }
 
-      var context = {
-        'sid': link.source.id,
-        'stype': link.source.type,
-        'saddr': saddr,
-        'tid': link.target.id,
-        'ttype': link.target.type,
-        'taddr': taddr,
-        'capacity': link.capacity,
-        'flows': flows,
-        'connectors': connectors
-      }
-      if (link.source_port) {
-        context.sport = link.source_port.id
-      }
-      if (link.target_port) {
-        context.tport = link.target_port.id
-      }
-      $('#info-panel').html(template(context))
-    })
+    //   var context = {
+    //     'sid': link.source.id,
+    //     'stype': link.source.type,
+    //     'saddr': saddr,
+    //     'tid': link.target.id,
+    //     'ttype': link.target.type,
+    //     'taddr': taddr,
+    //     'capacity': link.capacity,
+    //     'flows': flows,
+    //     'connectors': connectors
+    //   }
+    //   if (link.source_port) {
+    //     context.sport = link.source_port.id
+    //   }
+    //   if (link.target_port) {
+    //     context.tport = link.target_port.id
+    //   }
+    //   $('#info-panel').html(template(context))
+    // })
   }
 
   this.load_layout = function () {
